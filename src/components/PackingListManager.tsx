@@ -122,22 +122,15 @@ export default function PackingListManager() {
         </div>
       </header>
 
-      <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar */}
-        <ListSelector
-          lists={lists}
-          selectedListId={selectedListId}
-          onSelectList={setSelectedListId}
-          onDeleteList={deleteList}
-          onCreateClick={() => setShowCreateForm(!showCreateForm)}
-          showCreateForm={showCreateForm}
-          templates={TEMPLATES}
-          onCreateFromTemplate={createListFromTemplate}
-        />
-
-        {/* Main Content */}
-        <main className="flex-1 overflow-auto bg-gray-50">
-          {selectedList ? (
+      {selectedList ? (
+        <div className="flex-1 overflow-auto bg-gray-50 flex flex-col">
+          <button
+            onClick={() => setSelectedListId(null)}
+            className="md:hidden bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 m-4 rounded-lg"
+          >
+            ← 戻る
+          </button>
+          <div className="flex-1">
             <ListEditor
               list={selectedList}
               onUpdateItem={updateItem}
@@ -146,16 +139,33 @@ export default function PackingListManager() {
               onUpdateList={(updates) => updateList(selectedListId!, updates)}
               onSave={saveToStorage}
             />
-          ) : (
+          </div>
+        </div>
+      ) : (
+        <div className="flex flex-1 overflow-hidden">
+          {/* Sidebar */}
+          <ListSelector
+            lists={lists}
+            selectedListId={selectedListId}
+            onSelectList={setSelectedListId}
+            onDeleteList={deleteList}
+            onCreateClick={() => setShowCreateForm(!showCreateForm)}
+            showCreateForm={showCreateForm}
+            templates={TEMPLATES}
+            onCreateFromTemplate={createListFromTemplate}
+          />
+
+          {/* Desktop Main Content */}
+          <main className="flex-1 overflow-auto bg-gray-50 hidden md:block">
             <div className="h-full flex items-center justify-center text-gray-500">
               <p className="text-center">
                 <span className="block text-4xl mb-2">📋</span>
-                リストを作成してください
+                リストを選択してください
               </p>
             </div>
-          )}
-        </main>
-      </div>
+          </main>
+        </div>
+      )}
     </div>
   );
 }
