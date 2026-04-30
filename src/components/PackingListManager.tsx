@@ -122,28 +122,9 @@ export default function PackingListManager() {
         </div>
       </header>
 
-      {selectedList ? (
-        <div className="flex-1 overflow-auto bg-gray-50 flex flex-col">
-          <button
-            onClick={() => setSelectedListId(null)}
-            className="md:hidden bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 m-4 rounded-lg"
-          >
-            ← 戻る
-          </button>
-          <div className="flex-1">
-            <ListEditor
-              list={selectedList}
-              onUpdateItem={updateItem}
-              onDeleteItem={deleteItem}
-              onAddItem={addItem}
-              onUpdateList={(updates) => updateList(selectedListId!, updates)}
-              onSave={saveToStorage}
-            />
-          </div>
-        </div>
-      ) : (
-        <div className="flex flex-1 overflow-hidden">
-          {/* Sidebar */}
+      <div className="flex flex-col md:flex-row flex-1 overflow-hidden gap-0 md:gap-0">
+        {/* Sidebar - hidden on mobile when list is selected */}
+        <div className={`w-full md:w-64 border-r border-gray-200 bg-white overflow-auto ${selectedList ? 'hidden md:block' : 'block'}`}>
           <ListSelector
             lists={lists}
             selectedListId={selectedListId}
@@ -154,18 +135,39 @@ export default function PackingListManager() {
             templates={TEMPLATES}
             onCreateFromTemplate={createListFromTemplate}
           />
+        </div>
 
-          {/* Desktop Main Content */}
-          <main className="flex-1 overflow-auto bg-gray-50 hidden md:block">
+        {/* Main Content */}
+        <main className="flex-1 overflow-auto bg-gray-50 flex flex-col">
+          {selectedList ? (
+            <>
+              <button
+                onClick={() => setSelectedListId(null)}
+                className="md:hidden bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 m-4 rounded-lg w-fit"
+              >
+                ← 戻る
+              </button>
+              <div className="flex-1">
+                <ListEditor
+                  list={selectedList}
+                  onUpdateItem={updateItem}
+                  onDeleteItem={deleteItem}
+                  onAddItem={addItem}
+                  onUpdateList={(updates) => updateList(selectedListId!, updates)}
+                  onSave={saveToStorage}
+                />
+              </div>
+            </>
+          ) : (
             <div className="h-full flex items-center justify-center text-gray-500">
               <p className="text-center">
                 <span className="block text-4xl mb-2">📋</span>
                 リストを選択してください
               </p>
             </div>
-          </main>
-        </div>
-      )}
+          )}
+        </main>
+      </div>
     </div>
   );
 }
