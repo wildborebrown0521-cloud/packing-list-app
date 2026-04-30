@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import type { PackingList, ListItem, Category } from '../types';
 import ItemList from './ItemList';
 import ItemForm from './ItemForm';
@@ -45,14 +45,6 @@ export default function ListEditor({
     selectedCategory === 'all'
       ? list.items
       : list.items.filter(item => item.category === selectedCategory);
-
-  const groupedItems = CATEGORIES.reduce((acc, cat) => {
-    const items = list.items.filter(item => item.category === cat.value);
-    if (items.length > 0) {
-      acc[cat.value] = { label: cat.label, icon: cat.icon, items };
-    }
-    return acc;
-  }, {} as Record<Category, { label: string; icon: string; items: ListItem[] }>);
 
   const checkedCount = list.items.filter(item => item.checked).length;
   const totalCount = list.items.length;

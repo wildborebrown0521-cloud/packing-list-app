@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { PackingList, ListItem, Category } from '../types';
+import type { PackingList, ListItem } from '../types';
 import { TEMPLATES } from '../templates';
 import { safeStorage } from '../utils/storage';
 import ListSelector from './ListSelector';
